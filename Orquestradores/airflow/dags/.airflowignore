@@ -1,0 +1,68 @@
+# Ambientes virtuais - RECURSIVE
+**/.venv
+**/.venv/**
+**/venv
+**/venv/**
+**/env
+**/ENV
+**/environments
+**/virtualenv
+
+# Cache Python
+**/__pycache__
+**/*.py[cod]
+**/*.so
+**/site-packages
+
+# Jupyter & Notebooks
+*.ipynb
+**/.ipynb_checkpoints
+
+# Dados e configuração
+.env
+.env.local
+*.csv
+*.txt
+*.log
+*.parquet
+*.json
+*.xml
+*.xlsx
+*.xls
+*.db
+*.sqlite
+
+# Build & dist
+**/build
+**/dist
+*.egg-info
+**/.eggs
+
+# IDEs & Editors
+**/.vscode
+**/.idea
+**/.sublime
+*.swp
+*.swo
+*~
+
+# Git
+**/.git
+.gitignore
+.gitattributes
+
+# Outros
+.DS_Store
+Thumbs.db
+**/arquivos
+**/data
+**/datasets
+**/logs
+**/temp
+**/tmp
+**/node_modules
+**/bower_components
+
+# Específico: Gscia (projeto paralelo)
+Gscia
+Gscia/**

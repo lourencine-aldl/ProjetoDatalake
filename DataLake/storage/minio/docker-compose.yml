@@ -1,0 +1,76 @@
+services:
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    env_file:
+      - .env
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - minio_net
+
+  minio-init:
+    image: minio/mc:latest
+    container_name: minio-init
+    depends_on:
+      minio:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+
+      # ✅ defaults (não ficam em branco se faltar no .env)
+      MINIO_BUCKET_AHREAS: ${MINIO_BUCKET_AHREAS:-datalake-ahreas}
+      MINIO_BUCKET_SOST: ${MINIO_BUCKET_SOST:-datalake-sost}
+    entrypoint: >
+      /bin/sh -c "
+      set -e;
+
+      echo '⏳ Aguardando MinIO responder...';
+      until curl -sf http://minio:9000/minio/health/live; do
+        sleep 2;
+      done;
+      echo '✅ MinIO pronto';
+
+      # ✅ alias fixo interno (não depende de variável)
+      mc alias set datalake http://minio:9000 ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD};
+
+      echo '📦 Criando buckets...';
+      mc mb --ignore-existing datalake/${MINIO_BUCKET_AHREAS};
+      mc mb --ignore-existing datalake/${MINIO_BUCKET_SOST};
+
+      echo '📁 Criando estrutura medalhão (prefixos)...';
+      echo '' | mc pipe datalake/${MINIO_BUCKET_AHREAS}/bronze/.keep >/dev/null || true;
+      echo '' | mc pipe datalake/${MINIO_BUCKET_AHREAS}/silver/.keep >/dev/null || true;
+      echo '' | mc pipe datalake/${MINIO_BUCKET_AHREAS}/gold/.keep   >/dev/null || true;
+
+      echo '' | mc pipe datalake/${MINIO_BUCKET_SOST}/bronze/.keep >/dev/null || true;
+      echo '' | mc pipe datalake/${MINIO_BUCKET_SOST}/silver/.keep >/dev/null || true;
+      echo '' | mc pipe datalake/${MINIO_BUCKET_SOST}/gold/.keep   >/dev/null || true;
+
+      echo '✅ Buckets criados com sucesso:';
+      mc ls datalake;
+      "
+    networks:
+      - minio_net
+
+volumes:
+  minio_data:
+
+networks:
+  minio_net:
+    driver: bridge

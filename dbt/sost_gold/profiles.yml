@@ -1,0 +1,15 @@
+sost_gold:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: "{{ env_var('DBT_DW_HOST', env_var('POSTGRES_DW_HOST', 'localhost')) }}"
+      port: "{{ env_var('DBT_DW_PORT', env_var('POSTGRES_DW_PORT', '5432')) | int }}"
+      user: "{{ env_var('DBT_DW_USER', env_var('POSTGRES_DW_USER', 'postgres')) }}"
+      password: "{{ env_var('DBT_DW_PASSWORD', env_var('POSTGRES_DW_PASSWORD', 'change_me')) }}"
+      dbname: "{{ env_var('DBT_DW_DB', env_var('POSTGRES_DW_DB', 'postgres')) }}"
+      schema: "{{ env_var('DBT_DW_SCHEMA', 'public') }}"
+      threads: 4
+      connect_timeout: 10
+      keepalives_idle: 0
+      sslmode: "prefer"

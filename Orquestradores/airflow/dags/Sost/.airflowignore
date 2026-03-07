@@ -1,0 +1,56 @@
+# Arquivo .airflowignore - Padrões de arquivos/diretórios a serem ignorados pelo Airflow
+
+# Ambientes virtuais (qualquer .venv em qualquer nível)
+**/.venv
+**/.venv/**
+**/venv
+**/venv/**
+**/env
+**/ENV
+
+# Cache Python
+**/__pycache__
+**/__pycache__/**
+*.py[cod]
+*$py.class
+*.so
+
+# Jupyter Notebooks (não são DAGs)
+*.ipynb
+**/.ipynb_checkpoints
+**/.ipynb_checkpoints/**
+
+# Arquivos de configuração e dados
+.env
+*.csv
+*.txt
+*.log
+*.parquet
+*.json
+*.xml
+
+# Diretórios de build e dist
+**/build
+**/dist
+*.egg-info
+
+# IDEs
+**/.vscode
+**/.idea
+*.swp
+*.swo
+*~
+
+# Git
+**/.git
+.gitignore
+
+# Outros
+.DS_Store
+Thumbs.db
+**/arquivos
+**/data
+**/logs
+**/temp
+**/tmp
+

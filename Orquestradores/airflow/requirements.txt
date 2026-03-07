@@ -1,0 +1,12 @@
+requests
+pandas==2.0.3
+python-dotenv
+oracledb
+pyarrow
+sqlalchemy==2.0.23
+boto3
+polars
+s3fs
+duckdb
+psycopg2-binary==2.9.9
+redis==5.0.1
