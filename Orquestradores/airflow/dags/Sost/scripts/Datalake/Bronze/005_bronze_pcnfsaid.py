@@ -135,7 +135,8 @@ def clear_minio_prefix(fs: s3fs.S3FileSystem, bucket: str, base_prefix: str) -> 
     target_prefix = f"{bucket}/{base_prefix.strip('/')}"
     old_files = fs.find(target_prefix)
     if old_files:
-        fs.rm(old_files)
+        for old_file in old_files:
+            fs.rm(old_file)
         logger.info("🧹 MinIO limpo: prefixo=%s | removidos=%s", f"{target_prefix}/", len(old_files))
     else:
         logger.info("🧹 MinIO sem arquivos antigos em: %s", f"{target_prefix}/")

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from airflow import DAG
-from airflow.operators.bash import BashOperator
+from airflow.providers.standard.operators.bash import BashOperator
 from datetime import datetime, timedelta
 
 default_args = {
