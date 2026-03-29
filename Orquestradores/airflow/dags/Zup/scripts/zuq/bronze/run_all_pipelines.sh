@@ -8,8 +8,8 @@ set -e  # Para em caso de erro
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
-# Python do ambiente virtual
-PYTHON_BIN="/home/Projetos/ProjetosDocker/.venv/bin/python"
+# Python do container Airflow
+PYTHON_BIN="python3"
 
 echo "=========================================="
 echo "🚀 Iniciando Pipelines Bronze - Zuq"
