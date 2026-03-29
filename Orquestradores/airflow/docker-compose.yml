@@ -35,6 +35,7 @@ x-airflow-common:
     AIRFLOW__SMTP__SMTP_USER: ${GMAIL_ADDRESS:-}
     AIRFLOW__SMTP__SMTP_PASSWORD: ${GMAIL_APP_PASSWORD:-}
     AIRFLOW__SMTP__SMTP_MAIL_FROM: ${GMAIL_ADDRESS:-}
+    HOP_SHARED_JDBC_FOLDERS: /opt/hop/jdbc
   volumes:
     - ${AIRFLOW_PROJ_DIR:-.}/dags:/opt/airflow/dags
     - ${AIRFLOW_PROJ_DIR:-.}/logs:/opt/airflow/logs
@@ -42,6 +43,9 @@ x-airflow-common:
     - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins
     - ${AIRFLOW_PROJ_DIR:-.}/scripts:/opt/airflow/scripts
     - ${AIRFLOW_PROJ_DIR:-.}/data:/opt/airflow/data
+    - ${AIRFLOW_PROJ_DIR:-.}/jdbc:/opt/hop/jdbc:ro
+    - ${AIRFLOW_PROJ_DIR:-.}/../../Hop_Sost_ETL:/home/Projetos/ProjetoDatalake/Hop_Sost_ETL:ro
+    - ${AIRFLOW_PROJ_DIR:-.}/../../Hop_Sost_ETL:/project:ro
   user: "${AIRFLOW_UID:-50000}:0"
   depends_on:
     &airflow-common-depends-on
